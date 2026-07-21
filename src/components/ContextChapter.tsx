@@ -158,7 +158,7 @@ export default function ContextChapter() {
               <h3>但模型注意力有限</h3>
               <p>
                 上下文消耗到一定比例，注意力逐渐丢失——DeepSeek v4 pro 据说在
-                30%。别把它读爆。
+                30%。靠近的时候要注意观察模型是否变蠢。
               </p>
             </div>
           </div>

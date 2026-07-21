@@ -87,6 +87,28 @@ export default function ProcessChapter() {
           clearProps: "transform,opacity,visibility", // hand hover back to CSS
           scrollTrigger: { trigger: ".cards3", start: "top 82%", once: true },
         })
+
+        // Closer: the escape hatch when the loop breaks
+        gsap.from(".closer .h-display, .closer-sub", {
+          scale: 0.9,
+          autoAlpha: 0,
+          y: 40,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".closer",
+            start: "top 92%",
+            end: "top 45%",
+            scrub: 1,
+          },
+        })
+        gsap.from(".flow > *", {
+          y: 20,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: ".flow", start: "top 92%", once: true },
+        })
       })
       return () => mm.revert()
     },
@@ -144,13 +166,13 @@ export default function ProcessChapter() {
             </g>
             <g className="loop-node">
               <circle className="loop-dot" cx="167.5" cy="139" r="5" />
-              <text className="loop-label" x="167.5" y="162" textAnchor="middle">
+              <text className="loop-label" x="174" y="170" textAnchor="middle">
                 实施
               </text>
             </g>
             <g className="loop-node">
               <circle className="loop-dot" cx="32.5" cy="139" r="5" />
-              <text className="loop-label" x="32.5" y="162" textAnchor="middle">
+              <text className="loop-label" x="30" y="170" textAnchor="middle">
                 REVIEW
               </text>
             </g>
@@ -159,7 +181,7 @@ export default function ProcessChapter() {
 
         <div className="cards3">
           <article className="card">
-            <h3 className="h-card">先 Plan，后实施。</h3>
+            <h3 className="h-card">先 Plan，后实施</h3>
             <p className="body-text">
               感觉模型智力不够、爱跑偏，就先让它做计划、你来审。简要指出问题，给它探索的方向，让它自己完善。智力够的模型，描述完需求直接干，反倒便宜。
             </p>
@@ -172,7 +194,7 @@ export default function ProcessChapter() {
           </article>
 
           <article className="card">
-            <h3 className="h-card">多 Review。</h3>
+            <h3 className="h-card">多 Review</h3>
             <p className="body-text">
               让 AI 自己写久了，架构会变得奇怪。做完一轮需求就及时
               review，看到不合理就叫它重构——它倾向于沿着不合理的架构一路兜底，直到彻底无法维护。也可以另开一个对话来
@@ -181,13 +203,13 @@ export default function ProcessChapter() {
             <div className="card-foot">
               <span className="chip">Review + fix，确保产出满足【XXXXX】</span>
               <span className="card-cap">
-                把Review的需求一起丢进提示词，能提升输出质量
+                把Review的需求一起丢进提示词，能提升输出质量，注意，这不能替代独立的review。
               </span>
             </div>
           </article>
 
           <article className="card">
-            <h3 className="h-card">让测试兜底。</h3>
+            <h3 className="h-card">让测试兜底</h3>
             <p className="body-text">
               生成 plan 时让它一并生成测试用例，然后自己跑测试、自己改问题——开浏览器、看终端日志都自己来。但修不好就会循环烧钱，人得监督。
             </p>
@@ -231,6 +253,24 @@ export default function ProcessChapter() {
               </span>
             </div>
           </div>
+        </div>
+
+        <div className="closer">
+          <h3 className="h-display grad-text">开新会话</h3>
+          <p className="closer-sub">
+            如果一个问题反复修都没进展，就不要在同一个会话中继续尝试。<br />你需要👇
+          </p>
+          <div className="flow" aria-label="死磕时的脱身流程">
+            <span className="flow-step">总结提示词 + 开新会话</span>
+            <span className="flow-arrow" aria-hidden="true">
+              →
+            </span>
+            <span className="flow-step">还解决不了？换模型</span>
+          </div>
+          <p className="closer-note">
+            水平相近的模型也能互补。若你很清楚 bug
+            的现象，务必写进提示词——这对 AI debug 极有帮助。
+          </p>
         </div>
       </div>
     </section>

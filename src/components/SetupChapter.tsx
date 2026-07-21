@@ -76,9 +76,10 @@ export default function SetupChapter() {
         <div className="frow">
           <div className="frow-text">
             <h3 className="h-card" data-reveal>
-              文档驱动，避免AI自己摸索。
+              文档驱动，避免AI重复探索。
             </h3>
             <p className="body-text" data-reveal data-reveal-delay="0.08">
+              用最强的模型来做这件事。
               编码之前先写文档：解释架构、解释模块功能。别堆在一个文档里——按模块拆开，文档间互相引用。
               这能避免模型找错方向，也省上下文：200k
               上下文的模型探完仓库就可能爆掉，每个新会话反复扫仓库也费钱。

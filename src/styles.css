@@ -1248,19 +1248,6 @@ button:focus-visible {
   flex-wrap: wrap;
 }
 
-.footer-brand {
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.footer-note {
-  margin-top: 0.5rem;
-  font-size: 0.78rem;
-  color: var(--ink-3);
-  max-width: 340px;
-  line-height: 1.7;
-}
-
 .footer-nav {
   display: flex;
   gap: 1.6rem;
