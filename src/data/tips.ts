@@ -20,7 +20,7 @@ export type Chapter = {
 
 export const TITLE = '挖掘 AI 编程潜力'
 export const SUBTITLE_EN = 'FIELD NOTES'
-export const THESIS = '尽量把能交给 AI 的活，全交出去。'
+export const THESIS = '能交给 AI 的，全交出去。'
 export const HERO_SUB =
   '一位 AI 编程实践者的 11 条札记——文档先行、上下文、流程、工具，与心法。'
 
