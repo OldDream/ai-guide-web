@@ -1,0 +1,655 @@
+/* ============================================================================
+   挖掘 AI 编程潜力 · Field Notes
+   Design system: warm vellum + cinnabar seal + kaiti display
+   ========================================================================== */
+
+:root {
+  /* Palette — warm vellum, blue-cast ink, cinnabar seal-red */
+  --paper: #efe9dc;
+  --paper-2: #e6dfcd; /* code cards, deeper vellum */
+  --paper-3: #ded6c0;
+  --ink: #1b2230;
+  --ink-2: #2b3344;
+  --graph: rgba(27, 34, 48, 0.045);
+  --graph-major: rgba(27, 34, 48, 0.065);
+  --seal: #be3a2b;
+  --seal-2: #d4584a;
+  --mute: #6e6557;
+  --rule: rgba(27, 34, 48, 0.16);
+
+  /* Typefaces — handwritten kaiti display, modern sans body, craft mono */
+  --font-display: "LXGW WenKai Screen", "LXGW WenKai", "Noto Serif SC", serif;
+  --font-body: "Noto Sans SC", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid type scale */
+  --fs-hero: clamp(2rem, 6.2vw, 4.4rem);
+  --fs-chap: clamp(1.7rem, 3.6vw, 2.3rem);
+  --fs-tip: clamp(1.35rem, 2.6vw, 1.85rem);
+  --fs-foot: clamp(2.4rem, 7vw, 4.2rem);
+
+  /* Layout */
+  --maxw: 660px;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+}
+
+/* ----- reset ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  line-height: 1.65;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--graph) 1px, transparent 1px),
+    linear-gradient(90deg, var(--graph) 1px, transparent 1px),
+    linear-gradient(var(--graph-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--graph-major) 1px, transparent 1px);
+  background-size:
+    32px 32px, 32px 32px, 128px 128px, 128px 128px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: var(--seal);
+  color: var(--paper);
+}
+:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  min-height: 100svh;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 2.5rem var(--gutter) 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.hero__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  color: var(--mute);
+  text-transform: uppercase;
+}
+.hero__brand {
+  font-family: var(--font-body);
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  text-transform: none;
+  font-weight: 500;
+}
+.hero__brand em {
+  font-style: normal;
+  color: var(--seal);
+}
+.hero__count {
+  white-space: nowrap;
+}
+.hero__thesis {
+  margin: auto 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  line-height: 1.32;
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  min-height: 1.4em;
+  text-wrap: balance;
+}
+.hero__prompt {
+  color: var(--seal);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  margin-right: 0.28em;
+}
+.hero__cursor {
+  display: inline-block;
+  width: 0.5ch;
+  height: 0.92em;
+  background: var(--ink);
+  transform: translateY(0.1em);
+  margin-left: 0.04em;
+}
+.hero__sub {
+  margin-top: 1.6rem;
+  max-width: 27em;
+  color: var(--mute);
+  font-size: 0.98rem;
+  line-height: 1.85;
+}
+.hero__foot {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.hero__rule {
+  flex: 1;
+  height: 2px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.hero__scroll {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--mute);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   CONTEXT RAIL — the signature: scroll progress as context consumption
+   ========================================================================== */
+.ctx {
+  --p: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* desktop: vertical rail centered on the right */
+.rail {
+  position: absolute;
+  top: 50%;
+  right: clamp(0.75rem, 2.4vw, 1.9rem);
+  transform: translateY(-50%);
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.7rem;
+}
+.rail__top,
+.rail__bottom {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--mute);
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.3;
+}
+.rail__readout {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+.rail.is-warn .rail__readout {
+  color: var(--seal);
+}
+.rail__track {
+  position: relative;
+  align-self: flex-end;
+  width: 6px;
+  height: min(50vh, 380px);
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.rail__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  border-radius: 3px;
+  transform: scaleY(var(--p));
+  transform-origin: top center;
+  transition: background-color 0.4s ease;
+}
+.rail.is-warn .rail__fill {
+  background: var(--seal);
+}
+/* tick marks for the 11 tips */
+.rail__tick {
+  position: absolute;
+  right: 100%;
+  top: var(--at);
+  width: 8px;
+  height: 1px;
+  background: var(--rule);
+  margin-right: 4px;
+  transform: translateY(-0.5px);
+}
+.rail__tick--major {
+  width: 12px;
+  background: var(--mute);
+}
+/* the 40% attention-degradation band */
+.rail__band {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: 40%;
+  border-top: 1.5px dashed var(--seal);
+  opacity: 0.7;
+}
+.rail__band-label {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 40%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--seal);
+  white-space: nowrap;
+}
+
+/* mobile: thin top progress bar */
+.railbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--paper-2);
+}
+.railbar__fill {
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  transition: background-color 0.4s ease;
+}
+.railbar.is-warn .railbar__fill {
+  background: var(--seal);
+}
+
+/* ============================================================================
+   CHAPTER DIVIDER
+   ========================================================================== */
+.chap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(4rem, 12vh, 7rem) var(--gutter) 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 1.1rem;
+  row-gap: 0.5rem;
+}
+.chap__seal {
+  font-size: 1.5rem;
+  grid-row: 1;
+}
+.chap__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.chap__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--mute);
+  text-transform: uppercase;
+}
+.chap__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-chap);
+  color: var(--ink);
+  line-height: 1.15;
+  font-weight: 400;
+}
+.chap__tagline {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--mute);
+  font-size: 0.96rem;
+  line-height: 1.7;
+  max-width: 32em;
+}
+.chap__rule {
+  grid-column: 1 / -1;
+  display: block;
+  height: 2px;
+  background: var(--rule);
+  transform: scaleX(0);
+  transform-origin: left center;
+  margin-top: 0.4rem;
+}
+
+/* ============================================================================
+   TIP — notebook entry
+   ========================================================================== */
+.tip {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(1.7rem, 4.2vh, 2.6rem) var(--gutter);
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  column-gap: 1.1rem;
+}
+.tip__margin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.4rem;
+}
+.tip__num {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.tip__chap {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--mute);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.tip__body {
+  min-width: 0;
+}
+.tip__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-tip);
+  color: var(--ink);
+  line-height: 1.32;
+  font-weight: 400;
+}
+.tip__text {
+  margin: 0.7rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--ink-2);
+  max-width: 36em;
+}
+
+/* ----- code card ----- */
+.code {
+  margin-top: 1.15rem;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--seal);
+  border-radius: 3px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.code:hover {
+  transform: translateY(-2px);
+  border-color: var(--ink);
+  box-shadow: 0 4px 0 -2px var(--paper-3);
+}
+.code code {
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+}
+.code__caption {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--mute);
+}
+
+/* ----- tags ----- */
+.tags {
+  list-style: none;
+  padding: 0;
+  margin: 1.15rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tags li {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--ink);
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  padding: 0.3rem 0.62rem;
+  border-radius: 2px;
+  letter-spacing: 0.01em;
+}
+
+/* ----- annotated references (linked) ----- */
+.refs {
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.refs li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.refs a {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.refs a::before {
+  content: "→ ";
+  color: var(--seal);
+}
+.refs a:hover,
+.refs a:focus-visible {
+  color: var(--seal);
+  border-bottom-color: var(--seal);
+  outline: none;
+}
+.refs__note {
+  color: var(--mute);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   PLAN → REVIEW LOOP DIAGRAM
+   ========================================================================== */
+.loop {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 1.5rem;
+  display: block;
+  overflow: visible;
+}
+.loop__path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.loop__node {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.loop__node-bg {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+.loop__arrowhead {
+  fill: var(--ink);
+}
+.loop__node-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  fill: var(--ink);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.loop__node-sub {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  fill: var(--mute);
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+/* ============================================================================
+   FOOTER
+   ========================================================================== */
+.foot {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(5rem, 15vh, 9rem) var(--gutter) 4rem;
+}
+.foot__seal {
+  font-size: 1.4rem;
+  margin-bottom: 1.6rem;
+}
+.foot__big {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-foot);
+  color: var(--ink);
+  line-height: 1.18;
+  font-weight: 400;
+}
+.foot__text {
+  margin: 1.2rem 0 0;
+  color: var(--mute);
+  font-size: 1rem;
+  line-height: 1.85;
+  max-width: 30em;
+}
+.foot__colophon {
+  margin: 3rem 0 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--mute);
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+}
+
+/* ============================================================================
+   SEAL — cinnabar ink stamp
+   ========================================================================== */
+.seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
+  background-color: var(--seal);
+  color: var(--paper);
+  font-family: var(--font-display);
+  border-radius: 0.3em;
+  opacity: 0.92;
+  background-image:
+    radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.1), transparent 62%),
+    radial-gradient(circle at 75% 80%, rgba(0, 0, 0, 0.06), transparent 55%);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.25),
+    inset 0 0 0 2.5px var(--seal);
+  user-select: none;
+}
+.seal__char {
+  font-size: 1.25em;
+  line-height: 1;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.seal--tilt {
+  transform: rotate(-5deg);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .rail {
+    display: none;
+  }
+  .railbar {
+    display: block;
+  }
+  .tip {
+    grid-template-columns: 2.2rem 1fr;
+    column-gap: 0.85rem;
+  }
+}
+@media (min-width: 901px) {
+  .railbar {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero__topbar {
+    font-size: 0.66rem;
+  }
+  .tip {
+    grid-template-columns: 1fr;
+    row-gap: 0.4rem;
+  }
+  .tip__margin {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.7rem;
+    padding-top: 0;
+  }
+}
+
+/* Reduced-motion: ensure final states are visible even if JS is delayed */
+@media (prefers-reduced-motion: reduce) {
+  .hero__rule,
+  .chap__rule {
+    transform: scaleX(1);
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,21 @@
+.agents
+.claude
+node_modules
+
+# build output
+dist/
+dist-ssr/
+
+# local env
+*.local
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# temp screenshots (design review only)
+.tmp-shot-*
+.tmp-*.jpeg
