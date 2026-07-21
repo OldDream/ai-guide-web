@@ -87,7 +87,7 @@ export default function Hero() {
     <section className="hero" ref={ref} id="top">
       <div className="wrap">
         <div className="hero-head">
-          <p className="eyebrow">AI 编程实践 · 11 条札记</p>
+          <p className="eyebrow" style={{ display: 'none' }}>AI 编程实践 · 11 条札记</p>
           <h1 className="h-display">
             <span className="h-line">
               <span className="h-line-inner">挖掘</span>

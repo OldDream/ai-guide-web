@@ -141,23 +141,23 @@ export default function ContextChapter() {
 
           <div className="ctx-beats">
             <div className="beat beat-1">
-              <h3>让它多读。</h3>
+              <h3>尽量多读</h3>
               <p>
                 引导模型尽量多读相关文件，最好指定几个入口文件。看看它的
-                thinking，读得不够就再引导。
-              </p>
-            </div>
-            <div className="beat beat-2">
-              <h3>读，很便宜。</h3>
-              <p>
-                读有缓存，重复读能中缓存。发现它看不懂
+                thinking，读得不够就再引导。发现它看不懂
                 SDK，就把文档丢给它——在线给地址，离线转成 md 喂进去。
               </p>
             </div>
-            <div className="beat beat-3">
-              <h3>但注意力有预算。</h3>
+            <div className="beat beat-2">
+              <h3>很便宜</h3>
               <p>
-                上下文消耗到一定比例，注意力会掉——DeepSeek v4 pro 据说在
+                读有缓存，重复读能中缓存，近乎免费。贵的是输出。
+              </p>
+            </div>
+            <div className="beat beat-3">
+              <h3>但模型注意力有限</h3>
+              <p>
+                上下文消耗到一定比例，注意力逐渐丢失——DeepSeek v4 pro 据说在
                 30%。别把它读爆。
               </p>
             </div>

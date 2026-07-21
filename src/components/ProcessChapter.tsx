@@ -206,7 +206,7 @@ export default function ProcessChapter() {
           </div>
           <div className="tune-rows">
             <div className="tune-row">
-              <span className="tune-model">能力一般的模型</span>
+              <span className="tune-model">能力一般的模型，如dpv4</span>
               <span className="tune-verdict tune-verdict--yes">
                 <Mark ok /> superpowers 有收益
               </span>
