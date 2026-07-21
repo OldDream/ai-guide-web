@@ -1,101 +1,144 @@
 import { useRef } from "react"
 import { gsap, useGSAP } from "../register"
-import Seal from "./Seal"
-import { TITLE, SUBTITLE_EN, THESIS, HERO_SUB, TOTAL_TIPS } from "../data/tips"
 
+/**
+ * Apple-style product hero. The "device shot" for a guide about AI coding
+ * is the terminal itself — one quiet prompt exchange, mid-work.
+ */
 export default function Hero() {
-  const scope = useRef<HTMLElement>(null)
-  const textRef = useRef<HTMLSpanElement>(null)
-  const cursorRef = useRef<HTMLSpanElement>(null)
+  const ref = useRef<HTMLElement>(null)
 
   useGSAP(
     () => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      const text = textRef.current!
-      const full = THESIS
+      const mm = gsap.matchMedia()
 
-      // Initial hidden states — set before paint to avoid any flash.
-      gsap.set(".hero__topbar > *", { autoAlpha: 0, y: -8 })
-      gsap.set(".hero__sub", { autoAlpha: 0, y: 14 })
-      gsap.set(".hero__seal", { autoAlpha: 0, scale: 1.7, rotation: 4 })
-      gsap.set(".hero__rule", { scaleX: 0, transformOrigin: "left center" })
-      gsap.set(".hero__scroll", { autoAlpha: 0 })
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Load choreography: headline lines rise out of their clips,
+        // then the terminal settles into place.
+        const tl = gsap.timeline({
+          defaults: { duration: 1, ease: "power3.out" },
+        })
+        tl.from(".hero .eyebrow", { y: 24, autoAlpha: 0, duration: 0.8 })
+          .from(
+            ".hero .h-line-inner",
+            { yPercent: 112, duration: 1.15, stagger: 0.1 },
+            0.15
+          )
+          .from(".hero-sub", { y: 28, autoAlpha: 0 }, 0.75)
+          .from(
+            ".hero-shot",
+            { y: 90, autoAlpha: 0, scale: 0.94, duration: 1.3 },
+            0.9
+          )
+          .from(".hero-cue", { autoAlpha: 0, duration: 0.8 }, 1.5)
 
-      if (reduce) {
-        text.textContent = full
-        gsap.set(".hero__topbar > *", { autoAlpha: 1, y: 0 })
-        gsap.set(".hero__sub", { autoAlpha: 1, y: 0 })
-        gsap.set(".hero__seal", { autoAlpha: 0.92, scale: 1, rotation: -5 })
-        gsap.set(".hero__rule", { scaleX: 1 })
-        gsap.set(".hero__scroll", { autoAlpha: 0.6 })
-        gsap.set(cursorRef.current, { autoAlpha: 0.5 })
-        return
-      }
+        // The gradient breathes.
+        gsap.to(".hero .grad-text", {
+          backgroundPosition: "220% center",
+          duration: 9,
+          repeat: -1,
+          ease: "none",
+        })
 
-      text.textContent = ""
-      const counter = { n: 0 }
-
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-      tl.to(".hero__topbar > *", { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 })
-        .from(".hero__prompt", { autoAlpha: 0, duration: 0.3 }, ">-0.1")
-        .to(
-          counter,
-          {
-            n: full.length,
-            duration: full.length * 0.06,
-            ease: "none",
-            onUpdate: () => {
-              text.textContent = full.slice(0, Math.round(counter.n))
-            },
+        // Scroll-away parallax targets WRAPPER elements so it never shares
+        // animated properties with the load timeline (a .to() created after
+        // a .from() would capture the hidden from-state as its start).
+        gsap.to(".hero-head", {
+          y: -90,
+          autoAlpha: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top top",
+            end: "82% top",
+            scrub: true,
           },
-          "<",
-        )
-        .to(".hero__sub", { autoAlpha: 1, y: 0, duration: 0.6 }, ">-0.15")
-        .to(".hero__rule", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, "<")
-        .to(
-          ".hero__seal",
-          { autoAlpha: 0.92, scale: 1, rotation: -5, duration: 0.5, ease: "back.out(1.7)" },
-          "<0.05",
-        )
-        .to(".hero__scroll", { autoAlpha: 0.6, duration: 0.4 }, "<0.1")
-
-      // Blinking block cursor, independent of the main timeline.
-      gsap.to(cursorRef.current, {
-        autoAlpha: 0,
-        duration: 0.42,
-        repeat: -1,
-        yoyo: true,
-        ease: "none",
+        })
+        gsap.to(".hero-shot-scroll", {
+          y: -30,
+          scale: 0.96,
+          autoAlpha: 0.25,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        })
+        gsap.to(".hero-cue-scroll", {
+          autoAlpha: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top top",
+            end: "18% top",
+            scrub: true,
+          },
+        })
       })
+
+      return () => mm.revert()
     },
-    { scope },
+    { scope: ref }
   )
 
   return (
-    <header className="hero" ref={scope}>
-      <div className="hero__topbar">
-        <span className="hero__brand">
-          {TITLE}
-        </span>
-        <span>{SUBTITLE_EN}</span>
-        <span className="hero__count">
-          00 / {String(TOTAL_TIPS).padStart(2, "0")}
-        </span>
+    <section className="hero" ref={ref} id="top">
+      <div className="wrap">
+        <div className="hero-head">
+          <p className="eyebrow">AI 编程实践 · 11 条札记</p>
+          <h1 className="h-display">
+            <span className="h-line">
+              <span className="h-line-inner">挖掘</span>
+            </span>
+            <span className="h-line">
+              <span className="h-line-inner grad-text">AI 潜力</span>
+            </span>
+          </h1>
+          <p className="hero-sub">能交给 AI 的，全交出去。</p>
+        </div>
+
+        <div className="hero-shot-scroll">
+          <div className="hero-shot">
+            <div className="hero-glow" aria-hidden="true" />
+            <div className="term">
+              <div className="term-bar" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+                <span>claude — zsh</span>
+              </div>
+              <div className="term-body">
+                <p className="term-line">
+                  <b>❯</b> 先读 architecture.md，再动代码
+                </p>
+                <p className="term-line dim">
+                  ⏺ 读完 docs/ 下 12 个文档。架构已明，开始按模块实施。
+                </p>
+                <p className="term-line">
+                  <b>❯</b> <span className="caret" aria-hidden="true" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-cue-scroll">
+          <div className="hero-cue" aria-hidden="true">
+            <span>滚动了解</span>
+            <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
+              <path
+                d="M1 1l6 6 6-6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
-
-      <h1 className="hero__thesis">
-        <span className="hero__prompt">{"❯"}</span>
-        <span className="hero__text" ref={textRef}></span>
-        <span className="hero__cursor" ref={cursorRef}></span>
-      </h1>
-
-      <p className="hero__sub">{HERO_SUB}</p>
-
-      <div className="hero__foot">
-        <Seal className="hero__seal" char="AI" />
-        <span className="hero__rule" />
-        <span className="hero__scroll">scroll ↓</span>
-      </div>
-    </header>
+    </section>
   )
 }

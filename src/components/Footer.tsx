@@ -1,40 +1,30 @@
-import { useRef } from "react"
-import { gsap, useGSAP } from "../register"
-import Seal from "./Seal"
-import { FOOTER_LINE, FOOTER_TEXT, COLOPHON } from "../data/tips"
+import { CHAPTERS, TOTAL_TIPS } from "../data/tips"
 
+/** Apple-style fine print: quiet, small, hairline-divided. */
 export default function Footer() {
-  const scope = useRef<HTMLElement>(null)
-
-  useGSAP(
-    () => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      if (reduce) return
-
-      gsap.from(scope.current!.querySelectorAll("[data-reveal]"), {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: { trigger: scope.current, start: "top 84%", once: true },
-      })
-    },
-    { scope },
-  )
-
   return (
-    <footer className="foot" ref={scope}>
-      <Seal className="foot__seal seal--tilt" char="终" />
-      <h2 className="foot__big" data-reveal>
-        {FOOTER_LINE}
-      </h2>
-      <p className="foot__text" data-reveal>
-        {FOOTER_TEXT}
-      </p>
-      <p className="foot__colophon" data-reveal>
-        {COLOPHON}
-      </p>
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer-inner">
+          <div>
+            <p className="footer-brand">挖掘 AI 编程潜力</p>
+            <p className="footer-note">
+              尽量把能交给 AI 的活，全交出去。文档先行、上下文、流程、工具，与心法。
+            </p>
+          </div>
+          <ul className="footer-nav">
+            {CHAPTERS.map((c) => (
+              <li key={c.id}>
+                <a href={`#${c.id}`}>{c.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="footer-fine">
+          <span>内容整理自《AI 潜力挖掘》 · {TOTAL_TIPS} 条札记</span>
+          <span>React + GSAP 构建 · 设计语言致敬 Apple</span>
+        </div>
+      </div>
     </footer>
   )
 }

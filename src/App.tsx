@@ -1,54 +1,36 @@
-import { Fragment, useEffect } from "react"
+import { useEffect } from "react"
+import Nav from "./components/Nav"
+import Gauge from "./components/Gauge"
 import Hero from "./components/Hero"
-import ContextRail from "./components/ContextRail"
-import ChapterDivider from "./components/ChapterDivider"
-import Tip from "./components/Tip"
+// import StatStrip from "./components/StatStrip"
+import SetupChapter from "./components/SetupChapter"
+import ContextChapter from "./components/ContextChapter"
+import ProcessChapter from "./components/ProcessChapter"
+import ToolsChapter from "./components/ToolsChapter"
+import MindsetChapter from "./components/MindsetChapter"
 import Footer from "./components/Footer"
-import "./register"
 import { ScrollTrigger } from "./register"
-import { chapters } from "./data/tips"
 
 export default function App() {
-  const totalChapters = chapters.length
-  let globalIndex = 0
-
-  // CJK fonts (LXGW WenKai, Noto Sans SC) reflow layout after they load;
-  // recalculate every ScrollTrigger once they're ready so positions are exact.
+  // CJK fonts reflow layout after they load; recalculate every ScrollTrigger
+  // (including the pinned dark chapter) so positions stay exact.
   useEffect(() => {
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => ScrollTrigger.refresh())
-    }
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
   }, [])
 
   return (
     <>
-      <ContextRail />
+      <Nav />
+      <Gauge />
       <Hero />
-      <main id="track" className="track">
-        {chapters.map((ch, ci) => (
-          <Fragment key={ch.mark}>
-            <ChapterDivider
-              mark={ch.mark}
-              title={ch.title}
-              tagline={ch.tagline}
-              seal={ch.seal}
-              index={ci + 1}
-              total={totalChapters}
-            />
-            {ch.tips.map((tip) => {
-              globalIndex += 1
-              return (
-                <Tip
-                  key={`${ch.mark}-${tip.title}`}
-                  tip={tip}
-                  index={globalIndex}
-                  chapterMark={ch.mark}
-                  chapterTitle={ch.title}
-                />
-              )
-            })}
-          </Fragment>
-        ))}
+      {/* StatStrip 暂时隐藏，看看没有它的页面效果 */}
+      {/* <StatStrip /> */}
+      <main>
+        <SetupChapter />
+        <ContextChapter />
+        <ProcessChapter />
+        <ToolsChapter />
+        <MindsetChapter />
       </main>
       <Footer />
     </>

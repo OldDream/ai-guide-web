@@ -58,7 +58,7 @@
 
 用cc + plan，或者opencode + superpowers / grill-me 这种外部施加约束的方式去完善plan，在模型能力一般的情况下会有收益。
 
-注意，模型强了这样做未必能有收益，比如 fable5 或者 gpt5.6-sol ，约束太多可能影响ai发挥，所以不适合用superpowers ，长程任务能力很强的模型，适合grill-me这种梳理需求的 skill。
+注意，模型强了这样做未必能有收益，比如 kimi k3 或者 glm-5.2 ，约束太多可能影响ai发挥，所以不适合用superpowers ，长程任务能力很强的模型，适合grill-me这种梳理需求的 skill。
 
 
 
