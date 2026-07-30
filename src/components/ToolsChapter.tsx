@@ -141,6 +141,22 @@ export default function ToolsChapter() {
           </article>
 
           <article className="card">
+            <span className="card-glyph">Skill</span>
+            <h3 className="h-card">顺手的流程，写成自己的 skill。</h3>
+            <p className="body-text">
+              反复执行的个性化任务，值得总结成 skill。写法可参考Claude官方最佳实践。
+            </p>
+            <a
+              className="alink"
+              href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Agent Skills 最佳实践
+            </a>
+          </article>
+
+          <article className="card">
             <span className="card-glyph">Java</span>
             <h3 className="h-card">Java 的编码调试闭环。</h3>
             <p className="body-text">
