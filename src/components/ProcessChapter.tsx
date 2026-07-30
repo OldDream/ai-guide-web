@@ -105,13 +105,21 @@ export default function ProcessChapter() {
             scrub: 1,
           },
         })
+        gsap.from(".case", {
+          y: 40,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.12,
+          scrollTrigger: { trigger: ".closer-cases", start: "top 88%", once: true },
+        })
         gsap.from(".flow > *", {
           y: 20,
           autoAlpha: 0,
           duration: 0.7,
           ease: "power3.out",
           stagger: 0.08,
-          scrollTrigger: { trigger: ".flow", start: "top 92%", once: true },
+          scrollTrigger: { trigger: ".closer-cases", start: "top 82%", once: true },
         })
       })
       return () => mm.revert()
@@ -229,7 +237,7 @@ export default function ProcessChapter() {
           <article className="card">
             <h3 className="h-card">让测试兜底</h3>
             <p className="body-text">
-              生成 plan 时让它一并生成测试用例，然后自己跑测试、自己改问题——开浏览器、看终端日志都自己来。但修不好就会循环烧钱，人得监督。
+              生成 plan 时让它一并生成测试用例，然后自己跑测试、自己改问题——开浏览器、看终端输出。有可能会死循环，人得监督。可以加入提示词限制尝试次数👇
             </p>
             <div className="card-foot">
               <span className="chip">相似问题 3 次没修好 → 停止，等人介入</span>
@@ -273,17 +281,35 @@ export default function ProcessChapter() {
           </div>
         </div>
 
+        {/* Closer: fresh sessions — proactive isolation & reactive escape */}
         <div className="closer">
           <h3 className="h-display grad-text">开新会话</h3>
-          <p className="closer-sub">
-            如果一个问题反复修都没进展，就不要在同一个会话中继续尝试。<br />你需要👇
-          </p>
-          <div className="flow" aria-label="死磕时的脱身流程">
-            <span className="flow-step">总结提示词 + 开新会话</span>
-            <span className="flow-arrow" aria-hidden="true">
-              →
-            </span>
-            <span className="flow-step">还解决不了？换模型，调整Harness---更合适的SKILL、MCP、换Coding Agent【CC、OP、Pi】</span>
+          <p className="closer-sub">两种场景能明确受益</p>
+          <div className="closer-cases">
+            <div className="case">
+              <p className="case-tag">1、主动隔离</p>
+              <h4 className="h-card">分析完，实施前</h4>
+              <p className="body-text">
+                翻代码、试错、推翻假设——探索的残渣会塞满上下文，干扰实施时的判断。把结论复制走，开新会话，只带结论开工。
+              </p>
+            </div>
+            <div className="case">
+              <p className="case-tag">2、被动脱身</p>
+              <h4 className="h-card">一个问题反复修没进展</h4>
+              <div className="flow" aria-label="死磕时的脱身流程">
+                <span className="flow-step">总结提示词 + 开新会话</span>
+                <span className="flow-arrow" aria-hidden="true">
+                  →
+                </span>
+                <span className="flow-step flow-step--detail">
+                  还解决不了？换模型，调整 Harness
+                  <br />
+                  <span className="flow-step-sub">
+                    更合适的 SKILL、MCP，或换 Coding Agent（CC、OP、Pi）
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
           <p className="closer-note">
             水平相近的模型也能互补。若你很清楚 bug
