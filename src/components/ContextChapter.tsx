@@ -83,6 +83,8 @@ export default function ContextChapter() {
           // ---- Act one initial states (DOM default is the final 1M state) ----
           tl.set(".ctx-big--200k", { autoAlpha: 1, scale: 1 }, 0)
             .set(".ctx-big--1m", { autoAlpha: 0, scale: 0.7, y: 26 }, 0)
+            .set(".ctx-sub--200k", { autoAlpha: 1 }, 0)
+            .set(".ctx-sub:not(.ctx-sub--200k)", { autoAlpha: 0 }, 0)
             .set(".ctx-fill", {
               scaleX: 0,
               background: "#f5f5f7",
@@ -126,6 +128,8 @@ export default function ContextChapter() {
               { autoAlpha: 1, scale: 1, y: 0, duration: 0.08, ease: "power3.out" },
               0.39
             )
+            .to(".ctx-sub--200k", { autoAlpha: 0, duration: 0.05, ease: "power2.in" }, 0.36)
+            .to(".ctx-sub:not(.ctx-sub--200k)", { autoAlpha: 1, duration: 0.06, ease: "power2.out" }, 0.4)
             .to(".ctx-fill", { scaleX: 0, duration: 0.03 }, 0.38)
             .set(".ctx-fill", { background: "var(--grad)", opacity: 1 }, 0.41)
             // the odometer flips to the new scale
@@ -193,7 +197,12 @@ export default function ContextChapter() {
               </span>
               <h2 className="ctx-big ctx-big--1m grad-text">1M</h2>
             </div>
-            <p className="ctx-sub">上下文很宽裕。让它多读。</p>
+            <div className="ctx-sub-stack">
+              <span className="ctx-sub ctx-sub--200k" aria-hidden="true">
+                上下文不宽裕，仔细分配。
+              </span>
+              <p className="ctx-sub">上下文很宽裕。让它多读。</p>
+            </div>
           </header>
 
           <div

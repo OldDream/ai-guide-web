@@ -868,6 +868,20 @@ button:focus-visible {
   color: var(--ink-3);
 }
 
+/* the sub swaps wording when the model changes — same stack trick as the badge */
+.ctx-sub-stack {
+  position: relative;
+}
+
+.ctx-sub--200k {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* DOM default = final state; the timeline unhides it for act one */
+}
+
 /* The context bar */
 .ctx-bar {
   width: min(760px, 86vw);
