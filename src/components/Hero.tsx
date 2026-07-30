@@ -111,10 +111,7 @@ export default function Hero() {
               </div>
               <div className="term-body">
                 <p className="term-line">
-                  <b>❯</b> 先读 architecture.md，再动代码
-                </p>
-                <p className="term-line dim">
-                  ⏺ 读完 docs/ 下 12 个文档。架构已明，开始按模块实施。
+                  <b>❯</b> 先读 AGENT.md，再开始编码
                 </p>
                 <p className="term-line">
                   <b>❯</b> <span className="caret" aria-hidden="true" />

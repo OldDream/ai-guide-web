@@ -1,74 +1,77 @@
-import { useRef } from "react"
-import { gsap, useGSAP } from "../register"
-import { revealAll } from "../anim"
-import SectionHead from "./SectionHead"
+import { useRef } from 'react';
+import { gsap, useGSAP } from '../register';
+import { revealAll } from '../anim';
+import SectionHead from './SectionHead';
 
 const SKILL_LINKS = [
-  { label: "mattpocock/skills", href: "https://github.com/mattpocock/skills" },
-  { label: "obra/superpowers", href: "https://github.com/obra/superpowers" },
-  { label: "affaan-m/ECC", href: "https://github.com/affaan-m/ECC/tree/main" },
-  { label: "DietrichGebert/ponytail", href: "https://github.com/DietrichGebert/ponytail" },
-]
+  { label: 'mattpocock/skills', href: 'https://github.com/mattpocock/skills' },
+  { label: 'obra/superpowers', href: 'https://github.com/obra/superpowers' },
+  { label: 'affaan-m/ECC', href: 'https://github.com/affaan-m/ECC/tree/main' },
+  {
+    label: 'DietrichGebert/ponytail',
+    href: 'https://github.com/DietrichGebert/ponytail',
+  },
+];
 
 const JAVA_LINKS = [
   {
-    label: "MCP Java SDK",
-    note: "Anthropic 官方 · 3.6k star：给项目写专属 MCP 的标准 SDK",
-    href: "https://github.com/modelcontextprotocol/java-sdk",
+    label: 'MCP Java SDK',
+    note: 'Anthropic 官方 · 3.6k star：给项目写专属 MCP 的标准 SDK',
+    href: 'https://github.com/modelcontextprotocol/java-sdk',
   },
   {
-    label: "DebugMCP",
-    note: "微软官方：VS Code 里给 Java 打断点、单步、看变量",
-    href: "https://github.com/microsoft/DebugMCP",
+    label: 'DebugMCP',
+    note: '微软官方：VS Code 里给 Java 打断点、单步、看变量',
+    href: 'https://github.com/microsoft/DebugMCP',
   },
-]
+];
 
 const DOTNET_LINKS = [
   {
-    label: "Microsoft Learn",
-    note: "微软官方 · 1.7k star：查 .NET 文档不凭印象",
-    href: "https://github.com/MicrosoftDocs/mcp",
+    label: 'Microsoft Learn',
+    note: '微软官方 · 1.7k star：查 .NET 文档不凭印象',
+    href: 'https://github.com/MicrosoftDocs/mcp',
   },
   {
-    label: "NuGet MCP",
-    note: "微软官方 · 2.5M 下载：扫描并修复漏洞包",
-    href: "https://devblogs.microsoft.com/dotnet/nuget-mcp-server-preview/",
+    label: 'NuGet MCP',
+    note: '微软官方 · 2.5M 下载：扫描并修复漏洞包',
+    href: 'https://devblogs.microsoft.com/dotnet/nuget-mcp-server-preview/',
   },
   {
-    label: "DebugMCP",
-    note: "微软官方：AI 控制 VS Code 断点、单步、变量",
-    href: "https://github.com/microsoft/DebugMCP",
+    label: 'DebugMCP',
+    note: '微软官方：AI 控制 VS Code 断点、单步、变量',
+    href: 'https://github.com/microsoft/DebugMCP',
   },
   {
-    label: "Aspire",
-    note: ".NET 官方：给 AI 查结构化日志和调用链",
-    href: "https://aspire.dev/dashboard/standalone/",
+    label: 'Aspire',
+    note: '.NET 官方：给 AI 查结构化日志和调用链',
+    href: 'https://aspire.dev/dashboard/standalone/',
   },
-]
+];
 
 /** Chapter 4 · 工具 — bento grid, Apple's favorite density device. */
 export default function ToolsChapter() {
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        revealAll(ref.current!)
-        gsap.from(".bento .card", {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        revealAll(ref.current!);
+        gsap.from('.bento .card', {
           y: 44,
           autoAlpha: 0,
           duration: 0.95,
-          ease: "power3.out",
+          ease: 'power3.out',
           stagger: 0.12,
-          clearProps: "transform,opacity,visibility", // hand hover back to CSS
-          scrollTrigger: { trigger: ".bento", start: "top 82%", once: true },
-        })
-      })
-      return () => mm.revert()
+          clearProps: 'transform,opacity,visibility', // hand hover back to CSS
+          scrollTrigger: { trigger: '.bento', start: 'top 82%', once: true },
+        });
+      });
+      return () => mm.revert();
     },
-    { scope: ref }
-  )
+    { scope: ref },
+  );
 
   return (
     <section className="sec sec--white" id="ch4" ref={ref}>
@@ -125,7 +128,7 @@ export default function ToolsChapter() {
 
           <article className="card">
             <span className="card-glyph">Skill</span>
-            <h3 className="h-card">多尝试各种 skill。</h3>
+            <h3 className="h-card">尝试各种开源 skill</h3>
             <p className="body-text">
               Skill 能解决一部分问题。多找、多试，顺手的就留下来。
             </p>
@@ -142,9 +145,10 @@ export default function ToolsChapter() {
 
           <article className="card">
             <span className="card-glyph">Skill</span>
-            <h3 className="h-card">顺手的流程，写成自己的 skill。</h3>
+            <h3 className="h-card">创建自己的 skill</h3>
             <p className="body-text">
-              反复执行的个性化任务，值得总结成 skill。写法可参考Claude官方最佳实践。
+              重复使用的信息如个性化流程/指令/特定领域的知识文档，值得总结成
+              skill。写法可参考Claude官方最佳实践。
             </p>
             <a
               className="alink"
@@ -160,7 +164,7 @@ export default function ToolsChapter() {
             <span className="card-glyph">Java</span>
             <h3 className="h-card">Java 的编码调试闭环。</h3>
             <p className="body-text">
-              后端没有"浏览器可开"，但有更严格的反馈源：编译器和测试。Bash 跑{" "}
+              后端没有"浏览器可开"，但有更严格的反馈源：编译器和测试。Bash 跑{' '}
               <code>mvn test</code>
               ，编译错误和单测失败就是它的 console——这层闭环天然成立，不需要任何
               MCP。往下，把查文档、写 MCP、连 IDE 都交给 AI，全是主流方案。
@@ -199,5 +203,5 @@ export default function ToolsChapter() {
         </div>
       </div>
     </section>
-  )
+  );
 }

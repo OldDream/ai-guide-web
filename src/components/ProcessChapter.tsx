@@ -76,6 +76,10 @@ export default function ProcessChapter() {
           ".loop-arrow",
           { autoAlpha: 0, duration: 0.08 },
           0.92
+        ).from(
+          ".loop-cap",
+          { autoAlpha: 0, duration: 0.08 },
+          1
         )
 
         gsap.from(".cards3 .card", {
@@ -177,6 +181,20 @@ export default function ProcessChapter() {
               </text>
             </g>
           </svg>
+          <figcaption className="loop-cap" aria-hidden="true">
+            <span className="loop-cap-row">
+              <span className="loop-cap-cmd">chat</span>
+              <i className="loop-cap-map" />
+              <span className="loop-cap-term">ReAct</span>
+              <span className="loop-cap-note">推理—行动—观察循环，模型自决终止</span>
+            </span>
+            <span className="loop-cap-row">
+              <span className="loop-cap-cmd">/goal · ultracode</span>
+              <i className="loop-cap-map" />
+              <span className="loop-cap-term">Loop Engineering</span>
+              <span className="loop-cap-note">以可验证条件驱动，自主迭代至条件满足</span>
+            </span>
+          </figcaption>
         </div>
 
         <div className="cards3">
