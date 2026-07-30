@@ -129,7 +129,7 @@ export default function ProcessChapter() {
               Plan<TitleArrow />实施<TitleArrow />Review
             </>
           }
-          sub="循环往复——别让它一口气写到底。"
+          sub="循环往复——自行修正"
         />
 
         <div className="loop-wrap" aria-hidden="true">
