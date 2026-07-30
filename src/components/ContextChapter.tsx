@@ -2,10 +2,13 @@ import { useRef } from "react"
 import { gsap, useGSAP } from "../register"
 
 /**
- * Chapter 2 · 上下文 — the page's dark centerpiece.
- * The section pins; scrolling fills the context bar. At 40% the attention
- * warning lights up, and the three beats come on one by one as the
- * context budget drains. Reduced motion / mobile: static, bar full.
+ * Chapter 2 · 上下文 — the page's dark centerpiece, told in two acts.
+ * Act one (200k): a plain gray bar fills to its 80% "dumb zone" mark.
+ * Interlude: the 1M badge lights up in the gradient, the 200k mark shrinks
+ * into a ghost tick at 20% of the new scale. Act two (1M): the same bar
+ * refills in gradient, its attention cliff at 40%. Reduced motion / mobile:
+ * static final state. DOM default = final state; the desktop timeline sets
+ * act-one initial states itself.
  */
 export default function ContextChapter() {
   const ref = useRef<HTMLElement>(null)
@@ -24,7 +27,7 @@ export default function ContextChapter() {
             desktop: boolean
             animate: boolean
           }
-          if (!animate) return // static final state (bar full, beats visible)
+          if (!animate) return // static final state (1M, gradient, ghost mark)
 
           // Head intro as the section first scrolls in
           gsap.from(".ctx-head > *", {
@@ -64,49 +67,112 @@ export default function ContextChapter() {
             return
           }
 
-          // Desktop: the pinned moment. Bar = your scroll progress = context spent.
+          // Desktop: two pinned acts. Bar = your scroll progress = context spent.
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: {
               trigger: ref.current,
               start: "top top",
-              end: "+=2400",
+              end: "+=3400",
               pin: true,
               scrub: 1,
               anticipatePin: 1,
             },
           })
 
-          tl.fromTo(".ctx-fill", { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
+          // ---- Act one initial states (DOM default is the final 1M state) ----
+          tl.set(".ctx-big--200k", { autoAlpha: 1, scale: 1 }, 0)
+            .set(".ctx-big--1m", { autoAlpha: 0, scale: 0.7, y: 26 }, 0)
+            .set(".ctx-fill", {
+              scaleX: 0,
+              background: "#f5f5f7",
+              opacity: 0.35,
+            }, 0)
+            // the 40% cliff belongs to the 1M act — hidden until the interlude
+            .set(".ctx-tick", { autoAlpha: 0 }, 0)
+            .set(".ctx-tick--200k", { opacity: 0 }, 0)
+            .set(".ctx-tick--200k i", { scale: 0.4, opacity: 0.35 }, 0)
+            .set(".ctx-tick--200k .tick-label", { opacity: 0 }, 0)
+            .set(".ctx-scale-end-1m", { yPercent: 100, opacity: 0 }, 0)
+
+          // ---- Act one · 200K: a plain gray bar, dumb at 80% ----
+          tl.to(".ctx-fill", { scaleX: 1, duration: 0.26 }, 0.02)
+            // 80% of the 200k scale — the dumb zone lights up
+            .set(".ctx-tick--200k", { opacity: 1 }, 0.21)
+            .to(
+              ".ctx-tick--200k i",
+              { scale: 1, opacity: 1, duration: 0.04, ease: "power2.out" },
+              0.21
+            )
+            .to(
+              ".ctx-tick--200k .tick-label",
+              { opacity: 1, duration: 0.05, ease: "power2.out" },
+              0.22
+            )
             .from(
               ".beat-1",
-              { autoAlpha: 0, y: 34, duration: 0.1, ease: "power2.out" },
-              0.06
+              { autoAlpha: 0, y: 34, duration: 0.08, ease: "power2.out" },
+              0.26
             )
-            // 40% — the attention cliff lights up as the fill reaches it
+
+          // ---- Interlude · the 1M badge lights up ----
+          tl.to(
+            ".ctx-big--200k",
+            { autoAlpha: 0, scale: 0.8, duration: 0.05, ease: "power2.in" },
+            0.36
+          )
+            .to(
+              ".ctx-big--1m",
+              { autoAlpha: 1, scale: 1, y: 0, duration: 0.08, ease: "power3.out" },
+              0.39
+            )
+            .to(".ctx-fill", { scaleX: 0, duration: 0.03 }, 0.38)
+            .set(".ctx-fill", { background: "var(--grad)", opacity: 1 }, 0.41)
+            // the odometer flips to the new scale
+            .to(".ctx-scale-end-200k", { yPercent: -100, opacity: 0, duration: 0.04 }, 0.39)
+            .to(".ctx-scale-end-1m", { yPercent: 0, opacity: 1, duration: 0.04 }, 0.41)
+            // the 200k mark shrinks into a ghost tick at 20% of the 1M scale
+            .set(".ctx-tick--200k .tick-label", { opacity: 0 }, 0.41)
+            .to(".ctx-tick", { autoAlpha: 1, duration: 0.04 }, 0.44)
+            .to(".ctx-tick--200k", { left: "20%", duration: 0.05 }, 0.41)
+            .to(
+              ".ctx-tick--200k i",
+              { scale: 0.55, duration: 0.05, ease: "power2.out" },
+              0.41
+            )
+            .set(".ctx-tick--200k .tick-ghost", { opacity: 1 }, 0.46)
+            .to(
+              ".ctx-tick--200k .tick-ghost",
+              { autoAlpha: 1, duration: 0.04 },
+              0.46
+            )
+            .to(".ctx-tick--200k", { opacity: 0.35 }, 0.46)
+
+          // ---- Act two · 1M: the gradient bar, the real attention cliff ----
+          tl.to(".ctx-fill", { scaleX: 1, duration: 0.44 }, 0.46)
             .fromTo(
               ".ctx-tick i",
               { scale: 0.4, opacity: 0.35 },
               { scale: 1, opacity: 1, duration: 0.05, ease: "power2.out" },
-              0.4
+              0.62
             )
             .fromTo(
               ".ctx-tick span",
               { color: "#86868b" },
               { color: "#f5f5f7", duration: 0.05 },
-              0.4
+              0.62
             )
             .from(
               ".beat-2",
-              { autoAlpha: 0, y: 34, duration: 0.1, ease: "power2.out" },
-              0.46
+              { autoAlpha: 0, y: 34, duration: 0.08, ease: "power2.out" },
+              0.68
             )
             .from(
               ".beat-3",
-              { autoAlpha: 0, y: 34, duration: 0.1, ease: "power2.out" },
-              0.78
+              { autoAlpha: 0, y: 34, duration: 0.08, ease: "power2.out" },
+              0.82
             )
-            .to({}, { duration: 0.14 }) // hold the full bar before releasing
+            .to({}, { duration: 0.1 }) // hold the full bar before releasing
         }
       )
 
@@ -121,31 +187,47 @@ export default function ContextChapter() {
         <div className="wrap">
           <header className="ctx-head">
             <p className="eyebrow">第二章 · 上下文</p>
-            <h2 className="ctx-big grad-text">1M</h2>
+            <div className="ctx-big-stack">
+              <span className="ctx-big ctx-big--200k" aria-hidden="true">
+                200K
+              </span>
+              <h2 className="ctx-big ctx-big--1m grad-text">1M</h2>
+            </div>
             <p className="ctx-sub">上下文很宽裕。让它多读。</p>
           </header>
 
-          <div className="ctx-bar" role="img" aria-label="上下文消耗示意：40% 处为注意力警戒线">
+          <div
+            className="ctx-bar"
+            role="img"
+            aria-label="上下文消耗示意：200k 模型在 80% 处注意力衰退；1M 模型的注意力警戒线在 40%"
+          >
             <div className="ctx-track">
               <div className="ctx-fill" />
               <div className="ctx-tick">
                 <i aria-hidden="true" />
                 <span>40% · 注意力警戒线</span>
               </div>
+              <div className="ctx-tick--200k">
+                <i aria-hidden="true" />
+                <span className="tick-label">80% · 在这里就变蠢了</span>
+                <span className="tick-ghost">200k 到此为止</span>
+              </div>
             </div>
             <div className="ctx-scale">
               <span>0</span>
-              <span>1M tokens</span>
+              <span className="ctx-scale-end">
+                <span className="ctx-scale-end-200k">200K tokens</span>
+                <span className="ctx-scale-end-1m">1M tokens</span>
+              </span>
             </div>
           </div>
 
           <div className="ctx-beats">
             <div className="beat beat-1">
-              <h3>尽量多读</h3>
+              <h3>多提供信息</h3>
               <p>
-                引导模型尽量多读相关文件，最好指定几个入口文件。看看它的
-                thinking，读得不够就再引导。发现它看不懂
-                SDK，就把文档丢给它——在线给地址，离线转成 md 喂进去。
+                引导模型尽量多读相关文件，指定入口文件，确保AI一次性找对地方。冷门的
+                SDK，主动提供文档——在线给地址，离线的转成 md 喂进去。
               </p>
             </div>
             <div className="beat beat-2">
@@ -157,8 +239,8 @@ export default function ContextChapter() {
             <div className="beat beat-3">
               <h3>但模型注意力有限</h3>
               <p>
-                上下文消耗到一定比例，注意力逐渐丢失——DeepSeek v4 pro 据说在
-                30%。靠近的时候要注意观察模型是否变蠢。
+                上下文消耗到一定比例，注意力逐渐丢失——200k 的模型在
+                80% 就明显变蠢，1M 能撑到 40% 左右。靠近的时候要观察模型状态。
               </p>
             </div>
           </div>

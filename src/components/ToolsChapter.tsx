@@ -7,6 +7,7 @@ const SKILL_LINKS = [
   { label: "mattpocock/skills", href: "https://github.com/mattpocock/skills" },
   { label: "obra/superpowers", href: "https://github.com/obra/superpowers" },
   { label: "affaan-m/ECC", href: "https://github.com/affaan-m/ECC/tree/main" },
+  { label: "DietrichGebert/ponytail", href: "https://github.com/DietrichGebert/ponytail" },
 ]
 
 const JAVA_LINKS = [
