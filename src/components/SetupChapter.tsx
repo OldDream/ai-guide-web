@@ -7,7 +7,7 @@ const DOCS_REFS = [
   {
     label: "colbymchenry/codegraph",
     href: "https://github.com/colbymchenry/codegraph",
-    note: "当下流行 · 代码图谱索引",
+    note: "流行 · 代码图谱索引 · MCP",
   },
   {
     label: "affaan-m/ECC · codebase-onboarding",
@@ -69,8 +69,8 @@ export default function SetupChapter() {
       <div className="wrap">
         <SectionHead
           eyebrow="第一章 · 铺垫"
-          title="先把框架搭好。"
-          sub="能力差的模型会把自己绕晕，能力强的模型会在不同会话中做同样的探索，费钱。"
+          title="先做外围工作"
+          sub="能力差的模型会在探索中迷失，能力强的模型会在不同会话中做同样的探索，费钱。"
         />
 
         <div className="frow">
@@ -83,7 +83,7 @@ export default function SetupChapter() {
               编码之前先写文档：解释架构、解释模块功能。别堆在一个文档里——按模块拆开，文档间互相引用。
               这能避免模型找错方向，也省上下文：200k
               上下文的模型探完仓库就可能爆掉，每个新会话反复扫仓库也费钱。
-              Agent 虽然会做 memory，但那也是个坑——代码都回滚了，memory 可能还在。
+              Agent 虽然会做 memory，但那也是个坑——代码用git回滚了，memory 可能还在。
               下面是几个辅助创建文档的工具。
             </p>
             <ul className="refs" data-reveal data-reveal-delay="0.14">

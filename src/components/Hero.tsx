@@ -96,7 +96,7 @@ export default function Hero() {
               <span className="h-line-inner grad-text">AI 潜力</span>
             </span>
           </h1>
-          <p className="hero-sub">能交给 AI 的，全交出去。</p>
+          <p className="hero-sub">一些实践经验</p>
         </div>
 
         <div className="hero-shot-scroll">
@@ -111,7 +111,7 @@ export default function Hero() {
               </div>
               <div className="term-body">
                 <p className="term-line">
-                  <b>❯</b> 先读 AGENT.md，再开始编码
+                  <b>❯</b> AGENT.md
                 </p>
                 <p className="term-line">
                   <b>❯</b> <span className="caret" aria-hidden="true" />

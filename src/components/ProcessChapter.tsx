@@ -283,7 +283,7 @@ export default function ProcessChapter() {
             <span className="flow-arrow" aria-hidden="true">
               →
             </span>
-            <span className="flow-step">还解决不了？换模型，调整Harness---更合适的SKILL、MCP、甚至Coding Agent【CC、OP、Pi】</span>
+            <span className="flow-step">还解决不了？换模型，调整Harness---更合适的SKILL、MCP、换Coding Agent【CC、OP、Pi】</span>
           </div>
           <p className="closer-note">
             水平相近的模型也能互补。若你很清楚 bug
