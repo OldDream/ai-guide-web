@@ -137,7 +137,8 @@ export default function SetupChapter() {
             </h3>
             <p className="body-text" data-reveal data-reveal-delay="0.08">
               根目录的 AGENT.md、CLAUDE.md、README.md，大概率会被 AI
-              读到。把项目架构、你的编码原则写在里面。 内容简明扼要，及时清理陈旧内容——否则它会有很强的误导性。
+              读到。把项目架构、你的编码原则写在里面。 内容简明扼要，及时清理陈旧内容——否则它会有很强的误导性。<br />
+              提示词要渐进式披露，像书的目录一样。如编码规范应写在 `principle.md` 用相对路径在`AGENT.md`里引用。
             </p>
           </div>
 
