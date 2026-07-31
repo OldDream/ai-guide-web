@@ -23,18 +23,17 @@ export default function MindsetChapter() {
       <div className="wrap">
         <SectionHead
           eyebrow="第五章"
-          title="沉淀"
-          sub="LLM终究会依赖你输入的文字，所以高质量的文档始终重要"
+          title="写文档"
+          sub="LLM非常依赖你输入的文字，所以高质量的文档始终重要"
         />
 
         <div className="mrow">
           <h3 className="h-card" data-reveal>
-            多沉淀文档
+            多写文档
           </h3>
           <p className="body-text" data-reveal data-reveal-delay="0.08">
-            有价值的对话，叫 AI 写文档总结，也可以直接/memory。
-            那些自动生成的文档未必能很好满足我们的需求。
-            文档质量越高，效果越好。
+            有价值的对话，叫 AI 写文档总结保存。
+            codegraph之类的软件能自动根据代码变化更新文档，但是它只能解决快速找代码的问题，不能保留代码为什么这么写的原因（当然也能用多写注释解决）。
           </p>
         </div>
       </div>

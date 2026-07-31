@@ -83,7 +83,6 @@ export default function SetupChapter() {
               编码之前先写文档：解释架构、解释模块功能。别堆在一个文档里——按模块拆开，文档间互相引用。
               这能避免模型找错方向，也省上下文：200k
               上下文的模型探完仓库就可能爆掉，每个新会话反复扫仓库也费钱。
-              Agent 虽然会做 memory，但那也是个坑——代码用git回滚了，memory 可能还在。
               下面是几个辅助创建文档的工具。
             </p>
             <ul className="refs" data-reveal data-reveal-delay="0.14">
