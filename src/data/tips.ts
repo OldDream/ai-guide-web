@@ -12,7 +12,7 @@ export const CHAPTERS: ChapterMeta[] = [
   { id: "ch2", index: "第二章", name: "上下文" },
   { id: "ch3", index: "第三章", name: "流程" },
   { id: "ch4", index: "第四章", name: "工具" },
-  { id: "ch5", index: "第五章", name: "沉淀" },
+  { id: "ch5", index: "第五章", name: "写文档" },
 ]
 
 export const SITE_TITLE = "挖掘 AI 编程潜力"

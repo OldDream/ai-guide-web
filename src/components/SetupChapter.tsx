@@ -76,7 +76,7 @@ export default function SetupChapter() {
         <div className="frow">
           <div className="frow-text">
             <h3 className="h-card" data-reveal>
-              文档驱动，避免AI重复探索。
+              避免AI重复探索。
             </h3>
             <p className="body-text" data-reveal data-reveal-delay="0.08">
               用最强的模型来做这件事。

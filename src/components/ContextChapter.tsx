@@ -240,7 +240,7 @@ export default function ContextChapter() {
               </p>
             </div>
             <div className="beat beat-2">
-              <h3>很便宜</h3>
+              <h3>不用担心贵</h3>
               <p>
                 读有缓存，重复读能中缓存，近乎免费。贵的是输出。
               </p>
@@ -248,8 +248,7 @@ export default function ContextChapter() {
             <div className="beat beat-3">
               <h3>但模型注意力有限</h3>
               <p>
-                上下文消耗到一定比例，注意力逐渐丢失——200k 的模型在
-                80% 就明显变蠢，1M 能撑到 40% 左右。靠近的时候要观察模型状态。
+                上下文消耗到一定比例，注意力逐渐丢失——200k 的模型基本能坚持到上下文用尽，1M 能撑到 40% 左右。靠近的时候要观察模型状态。
               </p>
             </div>
           </div>

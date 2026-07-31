@@ -15,7 +15,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className="footer-fine">
-          <span>React + GSAP 构建 · 设计语言致敬 Apple</span>
+          <span>React + GSAP 构建</span>
         </div>
       </div>
     </footer>
